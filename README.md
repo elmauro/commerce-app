@@ -30,7 +30,7 @@ git clone https://github.com/elmauro/commerce-app.git
 
 ## Starting the Application
 
-You can start the application using npm start or Docker Compose
+You can start the application using npm start (npm install --legacy-peer-deps and npm start)  or Docker Compose
 
 **With Docker Compose**
 
