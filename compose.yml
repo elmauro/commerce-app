@@ -1,0 +1,17 @@
+version: '3.7'
+
+networks:
+  commerce-network:
+    external: true
+    
+services:
+  commerce-app:
+    container_name: commerce-app
+    build:
+      dockerfile: Dockerfile
+      context: .
+    restart: unless-stopped
+    ports:
+      - "3000:80"  # Expose port 3000
+    networks:
+    - commerce-network
