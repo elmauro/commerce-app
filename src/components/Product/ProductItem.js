@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addToCart } from '../../redux/actions/cartActions';
+import { addToCart, removeFromCart } from '../../redux/actions/cartActions';
 import productImage from '../../assets/product-image.jpg'; // Adjust the path based on your folder structure
 
 const ProductItem = ({ product }) => {
-  const [quantity, setQuantity] = useState(1);  // Start quantity at 1
+  const [quantity, setQuantity] = useState(0);  // Start quantity at 1
   const dispatch = useDispatch();
 
   // Function to increase quantity and add to cart, ensuring it does not exceed stock
@@ -22,8 +22,12 @@ const ProductItem = ({ product }) => {
   // Function to decrease quantity and add to cart
   const decreaseQuantityAndAddToCart = () => {
     setQuantity((prevQuantity) => {
-      const newQuantity = prevQuantity > 1 ? prevQuantity - 1 : prevQuantity;
-      dispatch(addToCart(product, newQuantity));  // Add to cart after updating quantity
+      const newQuantity = prevQuantity >= 0 ? prevQuantity - 1 : prevQuantity;
+      if (newQuantity === 0) {
+        dispatch(removeFromCart(product.productId)); // Remove item from cart if quantity becomes 0
+      } else {
+        dispatch(addToCart(product, newQuantity)); // Add to cart after updating quantity
+      }
       return newQuantity;
     });
   };
@@ -47,7 +51,7 @@ const ProductItem = ({ product }) => {
           <button
             className="bg-blue-700 text-white px-2 py-1"
             onClick={decreaseQuantityAndAddToCart}
-            disabled={quantity <= 1}  // Disable if at minimum
+            disabled={quantity <= 0}  // Disable if at minimum
           >
             −
           </button>
