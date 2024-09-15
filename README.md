@@ -1,4 +1,4 @@
-# commerce-app Documentation
+# Frontend App Documentation
 
 ## Introduction
 
